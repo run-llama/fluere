@@ -21,7 +21,9 @@ const wrappedWorkflow = createWorkflow({
   stopEvent
 })
 
-wrappedWorkflow.handle([startEvent], async ({ filePath }) => {fileParseWorkflow.run(filePath)})
+wrappedWorkflow.handle([startEvent],
+  async ({ data: { filePath } }) => {fileParseWorkflow.run(filePath)}
+)
 
 server.tool('1', {
   filePath: z.string()
