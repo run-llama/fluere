@@ -70,6 +70,7 @@
     "prepublish": "cp ../../README.md ./README.md"
   },
   "devDependencies": {
+    "@modelcontextprotocol/sdk": "^1.7.0",
     "@types/node": "^22.13.10",
     "hono": "^4.7.4",
     "next": "^15.2.2",
@@ -80,6 +81,7 @@
     "zod": "^3.24.2"
   },
   "peerDependencies": {
+    "@modelcontextprotocol/sdk": "^1.7.0",
     "hono": "^4.7.4",
     "next": "^15.2.2",
     "p-retry": "^6.2.1",
@@ -87,6 +89,9 @@
   },
   "license": "MIT",
   "peerDependenciesMeta": {
+    "@modelcontextprotocol/sdk": {
+      "optional": true
+    },
     "hono": {
       "optional": true
     },

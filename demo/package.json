@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.13.8",
+    "@modelcontextprotocol/sdk": "^1.7.0",
     "fluere": "workspace:*",
     "hono": "^4.7.4",
     "openai": "^4.87.3",
