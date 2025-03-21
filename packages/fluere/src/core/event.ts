@@ -34,7 +34,9 @@ export const workflowEvent = <Data = void>(
           data,
         };
       },
-      data,
+      get data() {
+        return data;
+      },
     };
     s.add(ref);
     Object.freeze(ref);

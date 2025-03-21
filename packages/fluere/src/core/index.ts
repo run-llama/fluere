@@ -7,3 +7,4 @@ export {
   type WorkflowEventData,
   type WorkflowEventConfig,
 } from "./event";
+export { readableStream } from "./internal/readable-stream";

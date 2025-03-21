@@ -1,5 +1,5 @@
 import { AsyncLocalStorage } from "node:async_hooks";
-import type { WorkflowEvent, WorkflowEventData, Handler } from "../core";
+import type { WorkflowEvent, WorkflowEventData, Handler } from "fluere";
 
 type HookContext = {
   beforeEvents: <
@@ -20,8 +20,6 @@ type HookContext = {
       [K in keyof AcceptEvents]: ReturnType<AcceptEvents[K]>;
     }
   ) => void;
-  afterQueue: (retry: () => void) => Promise<void>;
-
   __dev__onMismatchEvents: <
     AcceptEvents extends WorkflowEvent<any>[],
     Result extends WorkflowEventData<any> | void,
@@ -39,10 +37,6 @@ export function _setHookContext<R>(context: Partial<HookContext>, fn: () => R) {
   const prevContext = _hookContextAsyncLocalStorage.getStore();
   return _hookContextAsyncLocalStorage.run(
     {
-      async afterQueue(retry) {
-        await prevContext?.afterQueue?.(retry);
-        await context.afterQueue?.(retry);
-      },
       beforeEvents: (handler, ...events) => {
         prevContext?.beforeEvents?.(handler, ...events);
         context.beforeEvents?.(handler, ...events);
