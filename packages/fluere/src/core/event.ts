@@ -9,7 +9,7 @@ export type WorkflowEventData<Data> = {
 
 export type WorkflowEvent<Data> = {
   (data: Data): WorkflowEventData<Data>;
-  include(event: WorkflowEventData<any>): event is WorkflowEventData<Data>;
+  include(event: unknown): event is WorkflowEventData<Data>;
 };
 
 export type WorkflowEventConfig = {
@@ -34,7 +34,9 @@ export const workflowEvent = <Data = void>(
           data,
         };
       },
-      data,
+      get data() {
+        return data;
+      },
     };
     s.add(ref);
     Object.freeze(ref);
@@ -63,5 +65,9 @@ export const workflowEvent = <Data = void>(
 };
 
 // utils
-export const eventSource = (instance: WorkflowEventData<any>) =>
-  refMap.get(instance)!;
+export const eventSource = (
+  instance: unknown,
+): WorkflowEvent<any> | undefined =>
+  typeof instance === "object" && instance !== null
+    ? refMap.get(instance as any)
+    : undefined;

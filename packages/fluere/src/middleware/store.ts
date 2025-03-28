@@ -1,5 +1,5 @@
 import { AsyncLocalStorage } from "node:async_hooks";
-import { type Workflow } from "fluere";
+import { type Workflow, type WorkflowEventData } from "fluere";
 
 export function withStore<T, Start, Stop>(
   store: T,
@@ -8,13 +8,8 @@ export function withStore<T, Start, Stop>(
   getContext: () => T;
 } {
   const contextDataStorage = new AsyncLocalStorage<T>();
-  const originalHandle = workflow.handle;
   return {
     ...workflow,
-    handle: (accept, handler) =>
-      originalHandle(accept, (...args) =>
-        contextDataStorage.run(store, () => handler(...args)),
-      ),
     getContext: (): T => {
       const store = contextDataStorage.getStore();
       if (!store) {
@@ -23,6 +18,15 @@ export function withStore<T, Start, Stop>(
         );
       }
       return store;
+    },
+    get executor() {
+      const executor = workflow.executor;
+      return {
+        ...executor,
+        run: (inputs: WorkflowEventData<any>[]) => {
+          contextDataStorage.run(store, () => executor.run(inputs));
+        },
+      };
     },
     get startEvent() {
       return workflow.startEvent;

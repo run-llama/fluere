@@ -7,7 +7,7 @@ const app = new Hono();
 
 app.post(
   "/workflow",
-  createHonoHandler(async (ctx) => toolCallWorkflow.run(await ctx.req.text())),
+  createHonoHandler(toolCallWorkflow, async (ctx) => ctx.req.text()),
 );
 
 serve(app, ({ port }) => {

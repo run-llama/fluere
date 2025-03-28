@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
-import { timeoutHandler } from "./timeout";
-import type { Workflow } from "fluere";
+import type { Workflow, WorkflowEventData } from "fluere";
+import { promiseHandler } from "./promise";
 
 type WorkflowAPI = {
   GET: (request: NextRequest) => Promise<Response>;
@@ -8,11 +8,16 @@ type WorkflowAPI = {
 
 export const createNextHandler = <Start, Stop>(
   workflow: Workflow<Start, Stop>,
+  getStart: (
+    request: NextRequest,
+  ) =>
+    | Start
+    | WorkflowEventData<Start>
+    | Promise<Start | WorkflowEventData<Start>>,
 ): WorkflowAPI => {
   return {
     GET: async (request) => {
-      const body = await request.json();
-      const result = await timeoutHandler(() => workflow.run(body));
+      const result = await promiseHandler(workflow, await getStart(request));
       return Response.json(result.data);
     },
   };
