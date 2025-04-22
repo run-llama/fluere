@@ -1,0 +1,12 @@
+diff --git a/lib/deps/core_ext/hash.js b/lib/deps/core_ext/hash.js
+index f075d9c4cf496a236e0aee6b6191e3ab371aae2d..562decc8683e554514204a4a70472077678d0da3 100644
+--- a/lib/deps/core_ext/hash.js
++++ b/lib/deps/core_ext/hash.js
+@@ -1,6 +1,6 @@
+ var Hash = function() {
+   this.items = new Map();
+-  var i, value;
++  var i, value, l;
+   for (i = 0, l = arguments.length; i < l; i += 2) {
+     value = arguments[i + 1];
+     if (value !== undefined) {

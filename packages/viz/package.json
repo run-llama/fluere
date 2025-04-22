@@ -29,7 +29,7 @@
     "build": "rimraf dist && tsdown",
     "dev": "tsdown --watch",
     "prepublishOnly": "cp ../../README.md ./README.md",
-    "example:vizjs": "tsx ./examples/vizjs.ts"
+    "example": "tsx ./examples/vizjs.ts"
   },
   "devDependencies": {
     "@types/node": "^22.14.1",
@@ -48,6 +48,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@viz-js/viz": "^3.12.0"
+    "@viz-js/viz": "^3.12.0",
+    "graphviz-builder": "^0.1.1"
   }
 }

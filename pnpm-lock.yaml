@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  graphviz-builder:
+    hash: 4f1750ab76e6ef9344f2a323942c88b136c27fd05dfc80f17a02fa278adac451
+    path: patches/graphviz-builder.patch
+
 importers:
 
   .:
@@ -172,6 +177,9 @@ importers:
       '@viz-js/viz':
         specifier: ^3.12.0
         version: 3.12.0
+      graphviz-builder:
+        specifier: ^0.1.1
+        version: 0.1.1(patch_hash=4f1750ab76e6ef9344f2a323942c88b136c27fd05dfc80f17a02fa278adac451)
     devDependencies:
       '@types/node':
         specifier: ^22.14.1
@@ -1889,6 +1897,10 @@ packages:
 
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
+
+  graphviz-builder@0.1.1:
+    resolution: {integrity: sha512-4pzfUc6v6DiWk/e7arrzxAn6UTb03XgN30sd1YKiYgUUwR00ZH+fU9ZZy4yh+jkNh9iZjRwlaX/C6/U2wPTEUA==}
+    engines: {node: '>=10'}
 
   happy-dom@17.4.4:
     resolution: {integrity: sha512-/Pb0ctk3HTZ5xEL3BZ0hK1AqDSAUuRQitOmROPHhfUYEWpmTImwfD8vFDGADmMAX0JYgbcgxWoLFKtsWhcpuVA==}
@@ -4674,6 +4686,8 @@ snapshots:
   gopd@1.2.0: {}
 
   graceful-fs@4.2.11: {}
+
+  graphviz-builder@0.1.1(patch_hash=4f1750ab76e6ef9344f2a323942c88b136c27fd05dfc80f17a02fa278adac451): {}
 
   happy-dom@17.4.4:
     dependencies:

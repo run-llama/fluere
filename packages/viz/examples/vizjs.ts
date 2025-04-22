@@ -2,6 +2,7 @@ import { instance } from '@viz-js/viz';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { digraph } from 'graphviz-builder';
 
 // ES Module equivalent for __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -10,22 +11,26 @@ const __dirname = path.dirname(__filename);
 async function generateGraphImage() {
   console.log('Generating graph image using @viz-js/viz...');
 
-  // Define a simple graph in DOT language
-  const dotGraph = `
-    digraph SimpleGraph {
-      rankdir=LR; // Left to right layout
-      node [shape=box, style=rounded]; // Node shape
-      A [label="Start Node"];
-      B [label="Middle Node"];
-      C [label="End Node"];
-
-      A -> B [label="Step 1"];
-      B -> C [label="Step 2"];
-      A -> C [label="Skip", style=dashed];
-    }
-  `;
-
   try {
+    // Create a directed graph (digraph)
+    const g = digraph('SimpleGraph');
+
+    // Add nodes with attributes
+    const nodeA = g.createNode('A', { label: 'Start Node', shape: 'box', style: 'rounded' });
+    const nodeB = g.createNode('B', { label: 'Middle Node', shape: 'box', style: 'rounded' });
+    const nodeC = g.createNode('C', { label: 'End Node', shape: 'box', style: 'rounded' });
+
+    // Add edges with attributes
+    g.createEdge([nodeA, nodeB], { label: 'Step 1' });
+    g.createEdge([nodeB, nodeC], { label: 'Step 2' });
+    g.createEdge([nodeA, nodeC], { label: 'Skip', style: 'dashed' });
+
+    // Generate the DOT string
+    const dotGraph = g.toDot();
+
+    console.log('Generated DOT string:');
+    console.log(dotGraph);
+
     // Get the Viz renderer instance
     const viz = await instance();
 
