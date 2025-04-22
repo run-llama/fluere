@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./lib",
+    "tsBuildInfoFile": "./lib/.tsbuildinfo",
+    "paths": {
+      "@llama-flow/viz": ["./src/index.ts"]
+    }
+  },
+  "include": ["./src", "./examples"]
+}
