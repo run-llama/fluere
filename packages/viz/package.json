@@ -1,0 +1,54 @@
+{
+  "name": "@llama-flow/viz",
+  "version": "0.1.0",
+  "description": "Visualization components for LlamaFlow",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "default": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rimraf dist && tsdown",
+    "dev": "tsdown --watch",
+    "prepublishOnly": "cp ../../README.md ./README.md",
+    "example": "tsx ./examples/vizjs.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.1",
+    "rimraf": "^6.0.1",
+    "tsdown": "^0.9.1",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.3"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/run-llama/llama-flow.git",
+    "directory": "packages/viz"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@viz-js/viz": "^3.12.0",
+    "graphviz-builder": "^0.1.1"
+  }
+}
