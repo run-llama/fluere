@@ -14,9 +14,9 @@ export class WorkflowStream<R = any>
   #stream: ReadableStream<R>;
   #subscribable: Subscribable<[data: R], void>;
 
-  on(
-    event: WorkflowEvent<any>,
-    handler: (event: WorkflowEventData<any>) => void,
+  on<T>(
+    event: WorkflowEvent<T>,
+    handler: (event: WorkflowEventData<T>) => void,
   ): () => void {
     return this.#subscribable.subscribe((ev) => {
       if (event.include(ev)) {

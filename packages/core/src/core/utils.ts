@@ -29,7 +29,7 @@ export function flattenEvents(
 
 export type Subscribable<Args extends any[], R> = {
   subscribe: (callback: (...args: Args) => R) => () => void;
-  publish: (...args: Args) => void;
+  publish: (...args: Args) => unknown[];
 };
 
 const __internal__subscribesSourcemap = new WeakMap<
@@ -49,24 +49,30 @@ export function getSubscribers<Args extends any[], R>(
 /**
  * @internal
  */
-export function createSubscribable<Args extends any[], R>(): Subscribable<
-  Args,
-  R
-> {
-  const subscribers = new Set<(...args: Args) => R>();
+export function createSubscribable<
+  FnOrArgs extends ((...args: any[]) => any) | any[],
+  R = unknown,
+>(): FnOrArgs extends (...args: any[]) => any
+  ? Subscribable<Parameters<FnOrArgs>, ReturnType<FnOrArgs>>
+  : FnOrArgs extends any[]
+    ? Subscribable<FnOrArgs, R>
+    : never {
+  const subscribers = new Set<(...args: any) => any>();
   const obj = {
-    subscribe: (callback: (...args: Args) => R) => {
+    subscribe: (callback: (...args: any) => any) => {
       subscribers.add(callback);
       return () => {
         subscribers.delete(callback);
       };
     },
-    publish: (...args: Args) => {
+    publish: (...args: any) => {
+      const results: unknown[] = [];
       for (const callback of subscribers) {
-        callback(...args);
+        results.push(callback(...args));
       }
+      return results;
     },
   };
   __internal__subscribesSourcemap.set(obj, subscribers);
-  return obj;
+  return obj as any;
 }

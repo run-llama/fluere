@@ -68,6 +68,10 @@
       "types": "./middleware/validation.d.ts",
       "default": "./middleware/validation.js"
     },
+    "./middleware/snapshot": {
+      "types": "./middleware/snapshot.d.ts",
+      "default": "./middleware/snapshot.js"
+    },
     "./util/p-retry": {
       "types": "./util/p-retry.d.ts",
       "default": "./util/p-retry.js"
