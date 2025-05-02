@@ -1,6 +1,6 @@
 {
   "name": "@llama-flow/core",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "event-based workflow engine",
   "type": "module",
   "main": "dist/index.cjs",
