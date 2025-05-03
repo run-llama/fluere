@@ -1,0 +1,33 @@
+{
+  "name": "@llama-flow/http",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "HTTP protocol for Llama Flow",
+  "exports": {
+    "./server": {
+      "types": "./dist/server.d.ts",
+      "require": "./dist/server.cjs",
+      "default": "./dist/server.js"
+    },
+    "./client": {
+      "types": "./dist/client.d.ts",
+      "require": "./dist/client.cjs",
+      "default": "./dist/client.js"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/run-llama/llama-flow.git"
+  },
+  "scripts": {
+    "build": "bunchee",
+    "dev": "bunchee --watch"
+  },
+  "devDependencies": {
+    "@llama-flow/core": "workspace:*",
+    "bunchee": "^6.5.1"
+  },
+  "peerDependencies": {
+    "@llama-flow/core": "workspace:*"
+  }
+}

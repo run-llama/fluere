@@ -2,5 +2,6 @@ packages:
   - "./demo"
   - "./demo/cloudflare"
   - "./demo/browser"
+  - "./demo/waku"
   - "./docs"
   - "./packages/*"

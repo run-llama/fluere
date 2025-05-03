@@ -4,7 +4,7 @@ import type {
   WorkflowEventData,
   WorkflowEvent,
 } from "@llama-flow/core";
-import { runWorkflow } from "./stream/run";
+import { run } from "./stream/run";
 
 type WorkflowAPI = {
   GET: (request: NextRequest) => Promise<Response>;
@@ -19,8 +19,10 @@ export const createNextHandler = <Start, Stop>(
 ): WorkflowAPI => {
   return {
     GET: async (request) => {
-      const result = await runWorkflow(workflow, await getStart(request), stop);
-      return Response.json(result.data);
+      const result = await run(workflow, await getStart(request))
+        .until(stop)
+        .toArray();
+      return Response.json(result.at(-1)!.data);
     },
   };
 };
