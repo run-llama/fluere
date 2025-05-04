@@ -1,5 +1,11 @@
 # @llama-flow/core
 
+## 0.4.2
+
+### Patch Changes
+
+- 4402a6d: fix: workflow stream extends standard readable stream
+
 ## 0.4.1
 
 ### Patch Changes
