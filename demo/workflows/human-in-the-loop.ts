@@ -1,5 +1,8 @@
-import { withSnapshot, request } from "@llama-flow/core/middleware/snapshot";
-import { createWorkflow, workflowEvent, getContext } from "@llama-flow/core";
+import {
+  withSnapshot,
+  SnapshotData,
+} from "@llama-flow/core/middleware/snapshot";
+import { createWorkflow, getContext, workflowEvent } from "@llama-flow/core";
 import { OpenAI } from "openai";
 
 const openai = new OpenAI();
@@ -9,8 +12,12 @@ const workflow = withSnapshot(createWorkflow());
 const startEvent = workflowEvent<string>({
   debugLabel: "start",
 });
-const humanInteractionEvent = workflowEvent<string>({
-  debugLabel: "humanInteraction",
+const humanInteractionRequestEvent = workflowEvent<{
+  snapshot: SnapshotData;
+  reason: string;
+}>();
+const humanInteractionResponseEvent = workflowEvent<string>({
+  debugLabel: "humanInteractionResponse",
 });
 const stopEvent = workflowEvent<string>({
   debugLabel: "stop",
@@ -58,16 +65,26 @@ For example, alex is from "Alexander the Great", who was a king of the ancient G
   if (tools && tools.length > 0) {
     const askName = tools.find((tool) => tool.function.name === "ask_name");
     if (askName) {
-      return request(humanInteractionEvent, askName.function.arguments);
+      const snapshot = await getContext().snapshot();
+      return humanInteractionRequestEvent.with({
+        reason: askName.function.arguments,
+        snapshot,
+      });
     }
   }
   return stopEvent.with(response.choices[0].message.content!);
 });
 
-workflow.handle([humanInteractionEvent], async ({ data }) => {
+workflow.handle([humanInteractionResponseEvent], async ({ data }) => {
   const { sendEvent } = getContext();
-  // going back to the start event
+  // data is the user's response - going back to the start event
   sendEvent(startEvent.with(data));
 });
 
-export { workflow, startEvent, humanInteractionEvent, stopEvent };
+export {
+  workflow,
+  startEvent,
+  humanInteractionRequestEvent,
+  humanInteractionResponseEvent,
+  stopEvent,
+};
